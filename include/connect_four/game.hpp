@@ -20,7 +20,7 @@ private:
     std::ostream& out_;
 
     // Returns 0-indexed column, or -1 on EOF
-    int prompt_column(Cell current_player);
+    int prompt_column(Piece current_player);
 };
 
 } // namespace connect_four

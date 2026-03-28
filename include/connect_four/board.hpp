@@ -8,7 +8,7 @@
 
 namespace connect_four {
 
-enum class Cell {
+enum class Piece {
     Empty,
     X,
     O,
@@ -26,18 +26,18 @@ public:
 
     Board();
 
-    bool add_piece(int col, Cell piece);
-    [[nodiscard]] Cell at(int row, int col) const;
+    bool add_piece(int col, Piece piece);
+    [[nodiscard]] Piece at(int row, int col) const;
     [[nodiscard]] bool is_full() const;
-    [[nodiscard]] bool has_winner(Cell piece) const;
+    [[nodiscard]] bool has_winner(Piece piece) const;
     void clear();
 
     std::string to_string() const;
 
 private:
-    std::array<std::array<Cell, ncols>, nrows> grid_{};
+    std::array<std::array<Piece, ncols>, nrows> grid_{};
 
-    static char cell_to_char(Cell cell);
+    static char cell_to_char(Piece cell);
 
     [[nodiscard]] bool in_bounds(int row, int col) const;
 };

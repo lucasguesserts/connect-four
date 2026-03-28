@@ -9,8 +9,8 @@ namespace connect_four {
 Game::Game(std::istream& in, std::ostream& out)
     : in_(in), out_(out) {}
 
-int Game::prompt_column(Cell current_player) {
-    const char player_char = (current_player == Cell::X) ? Board::X_char : Board::O_char;
+int Game::prompt_column(Piece current_player) {
+    const char player_char = (current_player == Piece::X) ? Board::X_char : Board::O_char;
 
     while (true) {
         fmt::print(out_, "Player {} - enter column (1-{}): ", player_char, Board::ncols);
@@ -45,13 +45,13 @@ int Game::prompt_column(Cell current_player) {
 }
 
 void Game::run() {
-    Cell players[2] = {Cell::X, Cell::O};
+    Piece players[2] = {Piece::X, Piece::O};
     int turn = 0;
 
     fmt::print(out_, "=== Connect Four ===\n\n");
 
     while (true) {
-        Cell current = players[turn % 2];
+        Piece current = players[turn % 2];
 
         fmt::print(out_, "{}\n", board_.to_string());
 
@@ -68,7 +68,7 @@ void Game::run() {
 
         if (board_.has_winner(current)) {
             fmt::print(out_, "{}\n", board_.to_string());
-            const char winner_char = (current == Cell::X) ? Board::X_char : Board::O_char;
+            const char winner_char = (current == Piece::X) ? Board::X_char : Board::O_char;
             fmt::print(out_, "Player {} wins!\n", winner_char);
             return;
         }

@@ -8,17 +8,17 @@ Board::Board() {
 
 void Board::clear() {
     for (auto& row : grid_) {
-        row.fill(Cell::Empty);
+        row.fill(Piece::Empty);
     }
 }
 
-bool Board::add_piece(int col, Cell piece) {
-    if (col >= ncols || piece == Cell::Empty) {
+bool Board::add_piece(int col, Piece piece) {
+    if (col >= ncols || piece == Piece::Empty) {
         return false;
     }
 
     for (int row = 0; row < nrows; ++row) {
-        if (grid_[row][col] == Cell::Empty) {
+        if (grid_[row][col] == Piece::Empty) {
             grid_[row][col] = piece;
             return true;
         }
@@ -27,9 +27,9 @@ bool Board::add_piece(int col, Cell piece) {
     return false;
 }
 
-Cell Board::at(int row, int col) const {
+Piece Board::at(int row, int col) const {
     if (row >= nrows || col >= ncols) {
-        return Cell::Empty;
+        return Piece::Empty;
     }
 
     return grid_[row][col];
@@ -37,8 +37,8 @@ Cell Board::at(int row, int col) const {
 
 bool Board::is_full() const {
     for (const auto& row : grid_) {
-        for (Cell cell : row) {
-            if (cell == Cell::Empty) {
+        for (Piece cell : row) {
+            if (cell == Piece::Empty) {
                 return false;
             }
         }
@@ -47,8 +47,8 @@ bool Board::is_full() const {
     return true;
 }
 
-bool Board::has_winner(Cell piece) const {
-    if (piece == Cell::Empty) {
+bool Board::has_winner(Piece piece) const {
+    if (piece == Piece::Empty) {
         return false;
     }
 
@@ -130,10 +130,10 @@ std::string Board::to_string() const {
     return result;
 }
 
-char Board::cell_to_char(Cell cell) {
+char Board::cell_to_char(Piece cell) {
         switch (cell) {
-            case Cell::X: return X_char;
-            case Cell::O: return O_char;
+            case Piece::X: return X_char;
+            case Piece::O: return O_char;
             default: return Empty_char;
         }
     }

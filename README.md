@@ -167,10 +167,10 @@ X drops in column 7 and wins with a horizontal connect four on row A (columns 4 
 ## Research Questions
 
 1. How many combinations for placing the pieces are there?
-2. How many unfinished games are there?
+2. Is there a strategy that guarantees that the first player always win?
+   1. Is there a strategy that guarantees that the second player always win?
+3. How many unfinished games are there?
    1. A game is finished if a player has connected 4 pieces or all pieces have been placed.
-3. Is there a strategy that guarantees that the first player always win?
-4. Is there a strategy that guarantees that the second player always win?
 
 ### How many combinations for placing the pieces are there?
 
@@ -193,3 +193,9 @@ Using $N_X = 21$ and $N_O = 21$, we get
 $$
 T = 1\ 309\ 528\ 663\ 641\ 965\ 746\ 461\ 081\ 600\ 000 = 1.3095286636419657464610816 × 10^{30}
 $$
+
+### Is there a strategy that guarantees that the first player always win?
+
+Consider that the game is at a state $S_0$ and it is X turn. X has a winning strategy if and only if there is one move they can do that, no matter what move the opponent does, X can win.
+
+To explore all the options, use depth-first search. Theoretically both dept-first search (DFS) and breadth-first search (BFS) work, but BFS requires too much memory. DFS, on the other hand, can be executed with only one game board.

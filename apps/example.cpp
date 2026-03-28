@@ -14,7 +14,7 @@ int main() {
     fmt::print("Is the board full? {}\n", board.is_full() ? "Yes" : "No");
     fmt::print("Is there a winner? {}\n", board.has_winner() ? "Yes" : "No");
     if (board.has_winner()) {
-        fmt::print("Winner: {}\n", board.cell_to_char(board.winner()));
+        fmt::print("Winner: {}\n", board.piece_to_char(board.winner()));
     }
 
     return 0;

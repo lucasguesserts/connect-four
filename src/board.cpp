@@ -98,7 +98,7 @@ std::string Board::to_string() const {
         for (int i = 0; i < turn_; ++i) {
             const auto& [piece, row, col] = move_history_[i];
             // Show row as label (A-F), col as label (1-7)
-            result += fmt::format("    {:2d}: {} {} {}\n", i + 1, cell_to_char(piece), row_labels[row], column_labels[col]);
+            result += fmt::format("    {:2d}: {} {} {}\n", i + 1, piece_to_char(piece), row_labels[row], column_labels[col]);
         }
     }
     // Header row using column_labels
@@ -116,7 +116,7 @@ std::string Board::to_string() const {
         result += row_labels[r];
         result += " | ";
         for (int c = 0; c < ncols; ++c) {
-            char ch = cell_to_char(grid_[r][c]);
+            char ch = piece_to_char(grid_[r][c]);
             result += ch;
             result += ' ';
         }
@@ -134,8 +134,8 @@ std::string Board::to_string() const {
     return result;
 }
 
-char Board::cell_to_char(Piece cell) {
-        switch (cell) {
+char Board::piece_to_char(Piece piece) {
+        switch (piece) {
             case Piece::X: return X_char;
             case Piece::O: return O_char;
             default: return Empty_char;

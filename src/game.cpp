@@ -13,7 +13,7 @@ int Game::prompt_column(Piece current_player) {
     const char player_char = (current_player == Piece::X) ? Board::X_char : Board::O_char;
 
     while (true) {
-        fmt::print(out_, "Player {} - enter column (1-{}): ", player_char, Board::ncols);
+        fmt::print(out_, "Player {} - enter column (0-{}): ", player_char, Board::ncols - 1);
 
         std::string line;
         if (!std::getline(in_, line)) {
@@ -30,17 +30,17 @@ int Game::prompt_column(Piece current_player) {
         }
 
         if (!valid) {
-            fmt::print(out_, "Invalid input. Please enter a number between 1 and {}.\n", Board::ncols);
+            fmt::print(out_, "Invalid input. Please enter a number between 0 and {}.\n", Board::ncols - 1);
             continue;
         }
 
         int col_input = std::stoi(line);
-        if (col_input < 1 || col_input > Board::ncols) {
-            fmt::print(out_, "Column must be between 1 and {}.\n", Board::ncols);
+        if (col_input < 0 || col_input >= Board::ncols) {
+            fmt::print(out_, "Column must be between 0 and {}.\n", Board::ncols - 1);
             continue;
         }
 
-        return col_input - 1; // convert to 0-indexed
+        return col_input;
     }
 }
 
@@ -62,13 +62,13 @@ void Game::run() {
         }
 
         if (!board_.add_piece(col, current)) {
-            fmt::print(out_, "Column {} is full. Choose another column.\n", col + 1);
+            fmt::print(out_, "Column {} is full. Choose another column.\n", col);
             continue;
         }
 
         if (board_.has_winner()) {
             fmt::print(out_, "{}\n", board_.to_string());
-            const char winner_char = Board::cell_to_char(board_.winner());
+            const char winner_char = Board::piece_to_char(board_.winner());
             fmt::print(out_, "Player {} wins!\n", winner_char);
             return;
         }

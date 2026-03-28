@@ -18,7 +18,7 @@ class Board {
 public:
     static constexpr int nrows = 6;
     static constexpr int ncols = 7;
-    static constexpr std::array<char, ncols> column_labels = {'1', '2', '3', '4', '5', '6', '7'};
+    static constexpr std::array<char, ncols> column_labels = {'0', '1', '2', '3', '4', '5', '6'};
     static constexpr std::array<char, nrows> row_labels = {'A', 'B', 'C', 'D', 'E', 'F'};
     static constexpr char X_char = 'X';
     static constexpr char O_char = 'O';
@@ -41,7 +41,7 @@ public:
     int turn() const { return turn_; }
     const std::array<Move, nrows * ncols>& history() const { return move_history_; }
 
-    static char cell_to_char(Piece cell);
+    static char piece_to_char(Piece piece);
 
 private:
     std::array<std::array<Piece, ncols>, nrows> grid_{};

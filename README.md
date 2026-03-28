@@ -166,8 +166,30 @@ X drops in column 7 and wins with a horizontal connect four on row A (columns 4 
 
 ## Research Questions
 
-1. How many combinations of pieces are there?
+1. How many combinations for placing the pieces are there?
 2. How many unfinished games are there?
    1. A game is finished if a player has connected 4 pieces or all pieces have been placed.
 3. Is there a strategy that guarantees that the first player always win?
 4. Is there a strategy that guarantees that the second player always win?
+
+### How many combinations for placing the pieces are there?
+
+This is simple enough to answer using combinatorial analysis. There are $N_X = 21$ pieces X, $N_O = 21$ pieces O, and $N_X + N_O$ spaces. The number T of combinations for placing the pieces is then:
+
+$$
+T = \dfrac{(N_X + N_O)!}{N_X! \cdot N_O!}
+$$
+
+where $k!$ is the factorial of $k$, i.e.
+
+$$
+k! = k \times (k-1) \times (k-2) \times \cdots \times 2 \times 1
+$$
+
+with $0! = 1$ by definition.
+
+Using $N_X = 21$ and $N_O = 21$, we get
+
+$$
+T = 1\ 309\ 528\ 663\ 641\ 965\ 746\ 461\ 081\ 600\ 000 = 1.3095286636419657464610816 × 10^{30}
+$$

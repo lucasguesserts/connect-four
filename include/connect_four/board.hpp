@@ -31,7 +31,8 @@ public:
     bool add_piece(int col, Piece piece);
     [[nodiscard]] Piece at(int row, int col) const;
     [[nodiscard]] bool is_full() const;
-    [[nodiscard]] bool has_winner(Piece piece) const;
+    [[nodiscard]] bool has_winner() const { return has_winner_; }
+    [[nodiscard]] Piece winner() const { return winner_; }
     void clear();
 
     std::string to_string() const;
@@ -40,14 +41,17 @@ public:
     int turn() const { return turn_; }
     const std::array<Move, nrows * ncols>& history() const { return move_history_; }
 
+    static char cell_to_char(Piece cell);
+
 private:
     std::array<std::array<Piece, ncols>, nrows> grid_{};
     std::array<Move, nrows * ncols> move_history_{};
     int turn_ = 0;
-
-    static char cell_to_char(Piece cell);
+    bool has_winner_ = false;
+    Piece winner_ = Piece::Empty;
 
     [[nodiscard]] bool in_bounds(int row, int col) const;
+    bool check_winner(Piece piece, int row, int col) const;
 };
 
 } // namespace connect_four

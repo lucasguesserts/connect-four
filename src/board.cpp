@@ -16,10 +16,12 @@ void Board::clear() {
     for (auto& move : move_history_) {
         move = std::make_tuple(Piece::Empty, -1, -1);
     }
+    has_winner_ = false;
+    winner_ = Piece::Empty;
 }
 
 bool Board::add_piece(int col, Piece piece) {
-    if (col >= ncols || piece == Piece::Empty) {
+    if (col >= ncols || piece == Piece::Empty || has_winner_) {
         return false;
     }
 
@@ -31,6 +33,11 @@ bool Board::add_piece(int col, Piece piece) {
                 move_history_[turn_] = std::make_tuple(piece, row, col);
                 ++turn_;
             }
+            // Check for winner only around this move
+            if (check_winner(piece, row, col)) {
+                has_winner_ = true;
+                winner_ = piece;
+            }
             return true;
         }
     }
@@ -39,7 +46,7 @@ bool Board::add_piece(int col, Piece piece) {
 }
 
 Piece Board::at(int row, int col) const {
-    if (row >= nrows || col >= ncols) {
+    if (row < 0 || row >= nrows || col < 0 || col >= ncols) {
         return Piece::Empty;
     }
 
@@ -47,62 +54,39 @@ Piece Board::at(int row, int col) const {
 }
 
 bool Board::is_full() const {
-    for (const auto& row : grid_) {
-        for (Piece cell : row) {
-            if (cell == Piece::Empty) {
-                return false;
-            }
-        }
-    }
-
-    return true;
+    return turn_ >= nrows * ncols;
 }
 
-bool Board::has_winner(Piece piece) const {
-    if (piece == Piece::Empty) {
-        return false;
-    }
 
+// Check if placing 'piece' at (row, col) wins the game
+bool Board::check_winner(Piece piece, int row, int col) const {
+    if (piece == Piece::Empty) return false;
     constexpr int directions[4][2] = {
-        {1, 0},
-        {0, 1},
-        {1, 1},
-        {1, -1},
+        {1, 0},   // vertical
+        {0, 1},   // horizontal
+        {1, 1},   // diagonal up-right
+        {1, -1},  // diagonal up-left
     };
-
-    for (int row = 0; row < nrows; ++row) {
-        for (int col = 0; col < ncols; ++col) {
-            if (grid_[row][col] != piece) {
-                continue;
-            }
-
-            for (const auto& dir : directions) {
-                int matches = 1;
-                int r = row;
-                int c = col;
-
-                while (matches < 4) {
-                    r += dir[0];
-                    c += dir[1];
-
-                    if (!in_bounds(r, c)) {
-                        break;
-                    }
-
-                    if (grid_[r][c] != piece) {
-                        break;
-                    }
-
-                    ++matches;
-                }
-
-                if (matches == 4) {
-                    return true;
-                }
-            }
+    for (const auto& dir : directions) {
+        int count = 1;
+        // Check in the positive direction
+        int r = row + dir[0];
+        int c = col + dir[1];
+        while (in_bounds(r, c) && grid_[r][c] == piece) {
+            ++count;
+            r += dir[0];
+            c += dir[1];
         }
+        // Check in the negative direction
+        r = row - dir[0];
+        c = col - dir[1];
+        while (in_bounds(r, c) && grid_[r][c] == piece) {
+            ++count;
+            r -= dir[0];
+            c -= dir[1];
+        }
+        if (count >= 4) return true;
     }
-
     return false;
 }
 

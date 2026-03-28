@@ -66,9 +66,9 @@ void Game::run() {
             continue;
         }
 
-        if (board_.has_winner(current)) {
+        if (board_.has_winner()) {
             fmt::print(out_, "{}\n", board_.to_string());
-            const char winner_char = (current == Piece::X) ? Board::X_char : Board::O_char;
+            const char winner_char = Board::cell_to_char(board_.winner());
             fmt::print(out_, "Player {} wins!\n", winner_char);
             return;
         }

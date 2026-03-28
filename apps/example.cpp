@@ -9,11 +9,13 @@ int main() {
 
     fmt::print("Adding pieces to the board...\n");
     board.add_piece(3, connect_four::Piece::X);
-    board.add_piece(3, connect_four::Piece::O);;
+    board.add_piece(3, connect_four::Piece::O);
     fmt::print("{}\n", board.to_string());
     fmt::print("Is the board full? {}\n", board.is_full() ? "Yes" : "No");
-    fmt::print("Does X have a winning position? {}\n", board.has_winner(connect_four::Piece::X) ? "Yes" : "No");
-    fmt::print("Does O have a winning position? {}\n", board.has_winner(connect_four::Piece::O) ? "Yes" : "No");
+    fmt::print("Is there a winner? {}\n", board.has_winner() ? "Yes" : "No");
+    if (board.has_winner()) {
+        fmt::print("Winner: {}\n", board.cell_to_char(board.winner()));
+    }
 
     return 0;
 }

@@ -1,5 +1,7 @@
 #include "connect_four/board.hpp"
 
+#include <fmt/core.h>
+
 namespace connect_four {
 
 Board::Board() {
@@ -9,6 +11,10 @@ Board::Board() {
 void Board::clear() {
     for (auto& row : grid_) {
         row.fill(Piece::Empty);
+    }
+    turn_ = 0;
+    for (auto& move : move_history_) {
+        move = std::make_tuple(Piece::Empty, -1, -1);
     }
 }
 
@@ -20,6 +26,11 @@ bool Board::add_piece(int col, Piece piece) {
     for (int row = 0; row < nrows; ++row) {
         if (grid_[row][col] == Piece::Empty) {
             grid_[row][col] = piece;
+            // Record move in history
+            if (turn_ < nrows * ncols) {
+                move_history_[turn_] = std::make_tuple(piece, row, col);
+                ++turn_;
+            }
             return true;
         }
     }
@@ -97,7 +108,17 @@ bool Board::has_winner(Piece piece) const {
 
 std::string Board::to_string() const {
     std::string result;
+    // Move history
+    if (turn_ > 0) {
+        result += "Move history (turn: piece, row, col):\n";
+        for (int i = 0; i < turn_; ++i) {
+            const auto& [piece, row, col] = move_history_[i];
+            // Show row as label (A-F), col as label (1-7)
+            result += fmt::format("    {:2d}: {} {} {}\n", i + 1, cell_to_char(piece), row_labels[row], column_labels[col]);
+        }
+    }
     // Header row using column_labels
+    result += "Board:\n";
     result += "    ";
     for (char col_label : column_labels) {
         result += col_label;
@@ -126,7 +147,6 @@ std::string Board::to_string() const {
         result += col_label;
         result += ' ';
     }
-    result += "\n";
     return result;
 }
 

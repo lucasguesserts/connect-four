@@ -53,7 +53,7 @@ void Game::run() {
     while (true) {
         Piece current = players[turn % 2];
 
-        fmt::print(out_, "{}\n", board_.to_string());
+        fmt::print(out_, "\n{}\n", board_.to_string());
 
         int col = prompt_column(current);
         if (col == -1) {

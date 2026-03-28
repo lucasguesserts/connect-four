@@ -1,17 +1,19 @@
 #include "connect_four/board.hpp"
 
-#include <iostream>
+#include <fmt/core.h>
 
 int main() {
     connect_four::Board board;
 
-    board.drop_piece(3, connect_four::Cell::X);
-    board.drop_piece(3, connect_four::Cell::O);
+    fmt::print("Initial board state:\n{}\n", board.to_string());
 
-    std::cout << "Connect Four project is ready." << '\n';
-    std::cout << "Top token in column 4 is: "
-              << (board.at(1, 3) == connect_four::Cell::O ? 'O' : '?')
-              << '\n';
+    fmt::print("Adding pieces to the board...\n");
+    board.add_piece(3, connect_four::Cell::X);
+    board.add_piece(3, connect_four::Cell::O);;
+    fmt::print("{}\n", board.to_string());
+    fmt::print("Is the board full? {}\n", board.is_full() ? "Yes" : "No");
+    fmt::print("Does X have a winning position? {}\n", board.has_winner(connect_four::Cell::X) ? "Yes" : "No");
+    fmt::print("Does O have a winning position? {}\n", board.has_winner(connect_four::Cell::O) ? "Yes" : "No");
 
     return 0;
 }

@@ -3,7 +3,8 @@
 #define CONNECT_FOUR_BOARD_HPP
 
 #include <array>
-#include <cstddef>
+#include <cstdint>
+#include <string>
 
 namespace connect_four {
 
@@ -15,19 +16,28 @@ enum class Cell {
 
 class Board {
 public:
-    static constexpr std::size_t rows = 6;
-    static constexpr std::size_t cols = 7;
+    static constexpr int nrows = 6;
+    static constexpr int ncols = 7;
+    static constexpr std::array<char, ncols> column_labels = {'1', '2', '3', '4', '5', '6', '7'};
+    static constexpr std::array<char, nrows> row_labels = {'A', 'B', 'C', 'D', 'E', 'F'};
+    static constexpr char X_char = 'X';
+    static constexpr char O_char = 'O';
+    static constexpr char Empty_char = '.';
 
     Board();
 
-    bool drop_piece(std::size_t col, Cell piece);
-    [[nodiscard]] Cell at(std::size_t row, std::size_t col) const;
+    bool add_piece(int col, Cell piece);
+    [[nodiscard]] Cell at(int row, int col) const;
     [[nodiscard]] bool is_full() const;
     [[nodiscard]] bool has_winner(Cell piece) const;
     void clear();
 
+    std::string to_string() const;
+
 private:
-    std::array<std::array<Cell, cols>, rows> grid_{};
+    std::array<std::array<Cell, ncols>, nrows> grid_{};
+
+    static char cell_to_char(Cell cell);
 
     [[nodiscard]] bool in_bounds(int row, int col) const;
 };

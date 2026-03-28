@@ -8,9 +8,9 @@ Connect Four is a two-player strategy game played on a vertical grid with 7 colu
 2. The piece falls to the lowest available slot in that column.
 3. The first player to connect 4 pieces in a row wins.
 4. A winning line can be:
-	- Horizontal
-	- Vertical
-	- Diagonal
+   - Horizontal
+   - Vertical
+   - Diagonal
 5. If the board fills up and no player has connected 4, the game is a draw.
 
 ## Win Pattern Examples
@@ -163,3 +163,11 @@ X drops in column 7 and wins with a horizontal connect four on row A (columns 4 
 | C |   |   |   |   |   |   |   |
 | B |   |   |   | O | O | O |   |
 | A |   |   |   | X | X | X | X |
+
+## Research Questions
+
+1. How many combinations of pieces are there?
+2. How many unfinished games are there?
+   1. A game is finished if a player has connected 4 pieces or all pieces have been placed.
+3. Is there a strategy that guarantees that the first player always win?
+4. Is there a strategy that guarantees that the second player always win?

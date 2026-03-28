@@ -1,20 +1,23 @@
 
 .PHONY: build test
 
+
 BUILD_DIR = build
+CMAKE_BUILD = cmake -S . -B $(BUILD_DIR) && cmake --build $(BUILD_DIR)
 
 build:
-	cmake -S . -B $(BUILD_DIR)
-	cmake --build $(BUILD_DIR)
+	$(CMAKE_BUILD)
 
-run:
-	cmake -S . -B $(BUILD_DIR)
-	cmake --build $(BUILD_DIR)
-	cd $(BUILD_DIR) && ./connect_four
+play:
+	$(CMAKE_BUILD)
+	cd $(BUILD_DIR) && ./play_game
+
+example:
+	$(CMAKE_BUILD)
+	cd $(BUILD_DIR) && ./example
 
 test:
-	cmake -S . -B $(BUILD_DIR)
-	cmake --build $(BUILD_DIR)
+	$(CMAKE_BUILD)
 	cd $(BUILD_DIR) && ctest --output-on-failure
 
 clean:

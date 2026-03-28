@@ -18,6 +18,7 @@ add_subdirectory(dependencies/fmt)
 
 add_library(connect_four_lib
     src/board.cpp
+    src/game.cpp
 )
 
 target_include_directories(connect_four_lib
@@ -30,13 +31,20 @@ target_link_libraries(connect_four_lib
         fmt::fmt
 )
 
-# Executable
+# Apps
 
-add_executable(connect_four
-    src/main.cpp
+add_executable(play_game
+    apps/play_game.cpp
+)
+target_link_libraries(play_game
+    PRIVATE
+        connect_four_lib
 )
 
-target_link_libraries(connect_four
+add_executable(example
+    apps/example.cpp
+)
+target_link_libraries(example
     PRIVATE
         connect_four_lib
 )
